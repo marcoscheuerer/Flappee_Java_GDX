@@ -1,6 +1,7 @@
 package mao.linatrix.flappee;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen extends ScreenAdapter {
 	
@@ -37,6 +39,8 @@ public class GameScreen extends ScreenAdapter {
 		
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
+		
+		flappee.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 	}
 	
 	@Override
@@ -55,11 +59,24 @@ public class GameScreen extends ScreenAdapter {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		flappee.drawDebug(shapeRenderer);
 		shapeRenderer.end();
+		
+		update(delta);
 	}
 	
 	private void clearScreen() {
 		Gdx.gl.glClearColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, Color.BLACK.a);
 		Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT);
+	}
+	
+	private void update(float delta) {
+		flappee.update();
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+			flappee.flyUp();
+		blockFlappeeLeavingTheWorld();
+	}
+	
+	private void blockFlappeeLeavingTheWorld() {
+		flappee.setPosition(flappee.getX(), MathUtils.clamp(flappee.getY(), 0,  WORLD_HEIGHT));
 	}
 	
 }
