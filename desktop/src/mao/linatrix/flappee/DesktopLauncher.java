@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Flappee");
-		new Lwjgl3Application(new Flappee(), config);
+		config.setWindowedMode(240, 320);
+		new Lwjgl3Application(new FlappeeBeeGame(), config);
 	}
 }

@@ -20,6 +20,8 @@ public class GameScreen extends ScreenAdapter {
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
 	
+	private Flappee flappee = new Flappee();
+	
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
@@ -47,6 +49,12 @@ public class GameScreen extends ScreenAdapter {
 		batch.begin();
 		
 		batch.end();
+		
+		shapeRenderer.setProjectionMatrix(camera.projection);
+		shapeRenderer.setTransformMatrix(camera.view);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+		flappee.drawDebug(shapeRenderer);
+		shapeRenderer.end();
 	}
 	
 	private void clearScreen() {
